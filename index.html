@@ -6,7 +6,448 @@
 <title>Support KykyStudios — Demander un appel</title>
 <meta name="description" content="Contactez l'équipe KykyStudios pour un appel d'assistance sur le serveur Minecraft survie.">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="css/style.css">
+<style>
+/* =========================================================
+   KykyStudios Support — style.css
+   Palette : nuit de forêt / émeraude, accents or & redstone
+   Typo    : "Silkscreen" (pixel, display) + "Inter" (body)
+   Signature : boutons/panneaux "9-slice" façon interface Minecraft
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:            #12160e;
+  --bg-soft:       #171c11;
+  --panel:         #1d2417;
+  --panel-raised:  #232b1b;
+  --border-dark:   #070903;
+  --border-light:  #46592f;
+  --emerald:       #4fbf74;
+  --emerald-dim:   #2f7a49;
+  --gold:          #e0b23c;
+  --redstone:      #c1443a;
+  --redstone-dim:  #7c2b25;
+  --text:          #e9edd9;
+  --text-dim:      #a3ad8f;
+  --text-faint:    #6c7660;
+
+  --font-display: 'Silkscreen', monospace;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --radius: 2px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #1a2113 0%, var(--bg) 55%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 4px);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--emerald); }
+
+::selection { background: var(--emerald-dim); color: #fff; }
+
+/* ---------- Layout ---------- */
+
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+.wrap--wide { max-width: 1180px; }
+
+header.site {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 4px solid var(--border-dark);
+  background: linear-gradient(180deg, #1b2114 0%, #141810 100%);
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.brand__mark {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: var(--gold);
+  line-height: 1.3;
+}
+.brand__name small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-dim);
+  letter-spacing: 0.3px;
+}
+
+nav.site {
+  display: flex;
+  gap: 8px;
+}
+
+nav.site a {
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border: 1px solid transparent;
+}
+nav.site a:hover {
+  color: var(--text);
+  border-color: var(--border-light);
+  background: var(--panel);
+}
+
+/* ---------- Pixel panel (signature "9-slice" Minecraft GUI look) ---------- */
+
+.panel {
+  background: var(--panel);
+  border: 3px solid var(--border-dark);
+  box-shadow:
+    inset 2px 2px 0 var(--border-light),
+    inset -2px -2px 0 #0d1109,
+    0 6px 0 rgba(0,0,0,0.35);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.panel--raised { background: var(--panel-raised); }
+
+.panel__title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--gold);
+  margin: 0 0 16px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel__title::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--emerald);
+  box-shadow: 0 0 0 2px var(--border-dark);
+}
+
+/* ---------- Buttons (Minecraft-style bevel) ---------- */
+
+.btn {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  background: #4a5a3a;
+  border: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.18),
+    inset -2px -2px 0 rgba(0,0,0,0.45),
+    0 3px 0 var(--border-dark);
+  transition: transform 0.05s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.45);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.6) brightness(0.6);
+}
+
+.btn--primary { background: var(--emerald-dim); }
+.btn--gold    { background: #8a6a1f; }
+.btn--danger  { background: var(--redstone-dim); }
+.btn--ghost   {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--border-light);
+}
+.btn--sm { padding: 9px 14px; font-size: 10px; }
+.btn--block { width: 100%; }
+
+/* ---------- Forms ---------- */
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.field { margin-bottom: 18px; }
+
+input[type="text"],
+input[type="datetime-local"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  background: #0f130a;
+  border: 2px solid var(--border-dark);
+  box-shadow: inset 0 0 0 1px #303c22;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 11px 12px;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  box-shadow: inset 0 0 0 1px var(--emerald);
+}
+textarea { resize: vertical; min-height: 80px; }
+
+.hint { font-size: 12px; color: var(--text-faint); margin-top: 6px; }
+
+/* ---------- Badges / status ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border: 1px solid var(--border-dark);
+}
+.badge__dot { width: 7px; height: 7px; flex-shrink: 0; }
+
+.badge--pending  { background: #3a3320; color: var(--gold); }
+.badge--pending .badge__dot { background: var(--gold); }
+
+.badge--scheduled { background: #1c3a2e; color: var(--emerald); }
+.badge--scheduled .badge__dot { background: var(--emerald); }
+
+.badge--live { background: #3a1e1c; color: #ff8b7a; }
+.badge--live .badge__dot { background: var(--redstone); animation: pulse 1.2s infinite; }
+
+.badge--done { background: #22261c; color: var(--text-faint); }
+.badge--done .badge__dot { background: var(--text-faint); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.25; }
+}
+
+/* ---------- Utility ---------- */
+
+.muted { color: var(--text-dim); }
+.faint { color: var(--text-faint); font-size: 12px; }
+.center { text-align: center; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.row > * { flex: 1; }
+.stack { display: flex; flex-direction: column; gap: 10px; }
+.mt-8 { margin-top: 8px; } .mt-16 { margin-top: 16px; } .mt-24 { margin-top: 24px; }
+.hidden { display: none !important; }
+
+.divider {
+  border: none;
+  border-top: 2px dashed #2a331d;
+  margin: 20px 0;
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+.lead { color: var(--text-dim); margin: 0 0 24px; font-size: 14.5px; }
+
+.callout {
+  border-left: 4px solid var(--emerald);
+  background: rgba(79,191,116,0.08);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.callout--gold { border-color: var(--gold); background: rgba(224,178,60,0.08); }
+.callout--danger { border-color: var(--redstone); background: rgba(193,68,58,0.08); }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #263019; vertical-align: top; }
+th { color: var(--text-faint); text-transform: uppercase; font-size: 11px; letter-spacing: 0.4px; }
+
+/* ---------- Toast ---------- */
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--panel-raised);
+  border: 2px solid var(--border-dark);
+  box-shadow: inset 1px 1px 0 var(--border-light), 0 6px 0 rgba(0,0,0,0.35);
+  padding: 12px 16px;
+  font-size: 13px;
+  max-width: 320px;
+  z-index: 999;
+  animation: toast-in 0.2s ease;
+}
+@keyframes toast-in { from { opacity:0; transform: translateY(8px);} to {opacity:1; transform:none;} }
+
+/* ---------- Call room ---------- */
+
+.call-stage {
+  border: 3px solid var(--border-dark);
+  background: radial-gradient(ellipse at center, #182013 0%, #0b0e07 100%);
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.call-orb {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #6fdb92, var(--emerald-dim) 70%);
+  box-shadow: 0 0 0 6px rgba(79,191,116,0.12), 0 0 40px rgba(79,191,116,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 46px;
+}
+.call-orb.is-waiting {
+  background: radial-gradient(circle at 35% 30%, #e8c96a, var(--gold) 70%);
+  box-shadow: 0 0 0 6px rgba(224,178,60,0.12), 0 0 40px rgba(224,178,60,0.25);
+  animation: bob 2.4s ease-in-out infinite;
+}
+.call-orb.is-live {
+  animation: livepulse 1.6s ease-in-out infinite;
+}
+@keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-8px);} }
+@keyframes livepulse { 0%,100%{ box-shadow: 0 0 0 6px rgba(79,191,116,0.12), 0 0 40px rgba(79,191,116,0.25);} 50%{ box-shadow: 0 0 0 10px rgba(79,191,116,0.2), 0 0 60px rgba(79,191,116,0.4);} }
+
+.call-status-text {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.call-timer {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--gold);
+  margin: 10px 0 20px;
+  letter-spacing: 1px;
+}
+
+.call-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.iconbtn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #2a3520;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.12), inset -2px -2px 0 rgba(0,0,0,0.4);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconbtn:hover { filter: brightness(1.2); }
+.iconbtn.is-off { background: var(--redstone-dim); }
+.iconbtn--hangup { background: var(--redstone); }
+
+video {
+  width: 100%;
+  max-width: 220px;
+  background: #000;
+  border: 2px solid var(--border-dark);
+}
+.video-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.video-row .video-tile { text-align: center; }
+.video-row .video-tile span { display:block; font-size: 11px; color: var(--text-faint); margin-top: 4px; }
+
+.autoplay-gate {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,13,7,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 5;
+}
+
+footer.site {
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 12px;
+  padding: 30px 20px;
+}
+
+@media (max-width: 560px) {
+  header.site { flex-direction: column; align-items: flex-start; }
+  .h1 { font-size: 18px; }
+}
+
+</style>
 </head>
 <body>
 
@@ -104,8 +545,298 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="js/firebase-config.js"></script>
-<script src="js/shared.js"></script>
-<script src="js/main.js"></script>
+<script>
+// =========================================================
+// Config Firebase — KykyStudios Support
+// =========================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyBPq6Wfxzq02MfK69BFxHm9_FUjDGTmAcw",
+  authDomain: "kykychat-24c7f.firebaseapp.com",
+  databaseURL: "https://kykychat-24c7f-default-rtdb.firebaseio.com",
+  projectId: "kykychat-24c7f",
+  storageBucket: "kykychat-24c7f.firebasestorage.app",
+  messagingSenderId: "342562811927",
+  appId: "1:342562811927:web:0fed1e1f511c4fddcfec52"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Connexion anonyme : pas de compte utilisateur, mais permet d'utiliser des
+// règles de sécurité Firebase du type ".read/.write": "auth != null"
+// plutôt que de laisser la base totalement ouverte. Voir README.md.
+if (firebase.auth) {
+  firebase.auth().signInAnonymously().catch((err) => {
+    console.warn("Auth anonyme indisponible :", err.message);
+  });
+}
+
+
+// =========================================================
+// Utilitaires partagés — KykyStudios Support
+// =========================================================
+
+const MOTIFS = {
+  bug:       "Bug en jeu",
+  report:    "Signaler un joueur",
+  sanction:  "Contester une sanction (ban / mute)",
+  boutique:  "Problème boutique / paiement",
+  technique: "Problème technique (connexion, lag, crash...)",
+  autre:     "Autre demande",
+};
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function genToken() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+// Formatte un timestamp (ms) en date lisible fr-FR
+function formatDateTime(ts) {
+  if (!ts) return "—";
+  const d = new Date(ts);
+  return d.toLocaleString("fr-FR", {
+    day: "2-digit", month: "2-digit", year: "numeric",
+    hour: "2-digit", minute: "2-digit",
+  });
+}
+
+function timeUntil(ts) {
+  const diff = ts - Date.now();
+  if (diff <= 0) return null;
+  const mins = Math.floor(diff / 60000);
+  const days = Math.floor(mins / 1440);
+  const hours = Math.floor((mins % 1440) / 60);
+  const remMins = mins % 60;
+  let out = [];
+  if (days) out.push(days + "j");
+  if (hours) out.push(hours + "h");
+  if (remMins || out.length === 0) out.push(remMins + "min");
+  return out.join(" ");
+}
+
+// Best-effort : récupère l'IP publique du visiteur (échoue silencieusement,
+// ex. si l'utilisateur bloque le tiers ipify — l'appel n'en dépend jamais).
+async function getClientIp() {
+  try {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 4000);
+    const res = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
+    clearTimeout(t);
+    const data = await res.json();
+    return data.ip || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Petit toast de notification en bas à droite
+function showToast(message, duration = 3200) {
+  let el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = message;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), duration);
+}
+
+function statusBadge(status) {
+  const map = {
+    pending:    ["badge--pending", "En attente de planification"],
+    scheduled:  ["badge--scheduled", "Appel planifié"],
+    in_call:    ["badge--live", "Appel en cours"],
+    finished:   ["badge--done", "Terminé"],
+    cancelled:  ["badge--done", "Annulé"],
+  };
+  const [cls, label] = map[status] || ["badge--pending", status];
+  return `<span class="badge ${cls}"><span class="badge__dot"></span>${label}</span>`;
+}
+
+
+// =========================================================
+// main.js — page d'accueil (demande + suivi d'appel)
+// =========================================================
+
+const LS_CALL_ID = "kss_callId";
+const LS_TOKEN = "kss_clientToken";
+
+const formSection = document.getElementById("formSection");
+const statusSection = document.getElementById("statusSection");
+
+let currentCallRef = null;
+let currentUnsub = null;
+
+function showForm() {
+  formSection.classList.remove("hidden");
+  statusSection.classList.add("hidden");
+  if (currentUnsub) { currentUnsub(); currentUnsub = null; }
+}
+
+function showStatus() {
+  formSection.classList.add("hidden");
+  statusSection.classList.remove("hidden");
+}
+
+// ---------- Envoi d'une nouvelle demande ----------
+document.getElementById("submitBtn").addEventListener("click", async () => {
+  const pseudo = document.getElementById("pseudo").value.trim() || "Anonyme";
+  const motif = document.getElementById("motif").value;
+  const details = document.getElementById("details").value.trim();
+  const btn = document.getElementById("submitBtn");
+
+  btn.disabled = true;
+  btn.textContent = "Envoi en cours...";
+
+  try {
+    const clientToken = genToken();
+    const newRef = db.ref("calls").push();
+    const payload = {
+      pseudo,
+      motif,
+      motifLabel: MOTIFS[motif] || motif,
+      details: details || null,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+      status: "pending",
+      scheduledAt: null,
+      clientToken,
+      ip: null,
+      userAgent: navigator.userAgent,
+      presence: { client: false, admin: false },
+    };
+    await newRef.set(payload);
+
+    localStorage.setItem(LS_CALL_ID, newRef.key);
+    localStorage.setItem(LS_TOKEN, clientToken);
+
+    // Récupère l'IP en arrière-plan, sans bloquer l'UX
+    getClientIp().then(ip => { if (ip) newRef.child("ip").set(ip); });
+
+    watchCall(newRef.key);
+  } catch (e) {
+    console.error(e);
+    showToast("Erreur : impossible d'envoyer la demande. Réessaie.");
+    btn.disabled = false;
+    btn.textContent = "Envoyer ma demande d'appel";
+  }
+});
+
+// ---------- Suivi temps réel d'une demande existante ----------
+function watchCall(callId) {
+  currentCallRef = db.ref("calls/" + callId);
+  showStatus();
+
+  currentUnsub = () => currentCallRef.off("value", listener);
+
+  const listener = (snap) => {
+    const data = snap.val();
+    if (!data) {
+      // La demande a été supprimée côté admin
+      localStorage.removeItem(LS_CALL_ID);
+      localStorage.removeItem(LS_TOKEN);
+      showToast("Cette demande n'existe plus.");
+      showForm();
+      return;
+    }
+    renderStatus(callId, data);
+  };
+  currentCallRef.on("value", listener);
+}
+
+function renderStatus(callId, data) {
+  document.getElementById("sumStatus").innerHTML = statusBadge(data.status);
+  document.getElementById("sumPseudo").textContent = data.pseudo;
+  document.getElementById("sumMotif").textContent = data.motifLabel;
+  document.getElementById("sumDetails").textContent = data.details || "—";
+  document.getElementById("sumCreated").textContent = formatDateTime(data.createdAt);
+  document.getElementById("sumScheduled").textContent = data.scheduledAt ? formatDateTime(data.scheduledAt) : "Pas encore fixé";
+
+  const scheduleText = document.getElementById("scheduleText");
+  const joinBtn = document.getElementById("joinBtn");
+  const joinHint = document.getElementById("joinHint");
+
+  if (data.status === "cancelled") {
+    scheduleText.textContent = "Cette demande a été annulée.";
+    joinBtn.disabled = true;
+    joinHint.textContent = "";
+  } else if (data.status === "finished") {
+    scheduleText.textContent = "Cet appel est terminé. Merci d'avoir contacté le support !";
+    joinBtn.disabled = true;
+    joinHint.textContent = "";
+  } else if (data.status === "in_call") {
+    scheduleText.textContent = "L'appel est en cours — rejoins directement.";
+    joinBtn.disabled = false;
+    joinHint.textContent = "";
+  } else if (data.status === "scheduled" && data.scheduledAt) {
+    const now = Date.now();
+    const joinableFrom = data.scheduledAt - 5 * 60 * 1000; // ouvrable 5 min avant
+    if (now >= joinableFrom) {
+      scheduleText.textContent = "Ton appel est planifié pour le " + formatDateTime(data.scheduledAt) + ". Tu peux rejoindre le salon dès maintenant.";
+      joinBtn.disabled = false;
+      joinHint.textContent = "Si l'admin n'est pas encore là, une musique d'attente sera jouée automatiquement.";
+    } else {
+      scheduleText.textContent = "Ton appel est planifié pour le " + formatDateTime(data.scheduledAt) + ".";
+      joinBtn.disabled = true;
+      joinHint.textContent = "Le bouton se débloquera automatiquement " + timeUntil(joinableFrom) + " avant l'heure (dans " + timeUntil(joinableFrom) + ").";
+    }
+  } else {
+    scheduleText.textContent = "L'équipe n'a pas encore planifié ton appel. Reviens un peu plus tard, cette page se met à jour automatiquement.";
+    joinBtn.disabled = true;
+    joinHint.textContent = "";
+  }
+
+  joinBtn.onclick = () => {
+    window.location.href = "call.html?id=" + encodeURIComponent(callId) + "&role=client";
+  };
+}
+
+// Re-vérifie chaque minute si l'heure du rendez-vous approche, pour débloquer le bouton
+setInterval(() => {
+  if (currentCallRef) currentCallRef.once("value").then(s => s.val() && renderStatus(localStorage.getItem(LS_CALL_ID), s.val()));
+}, 30000);
+
+// ---------- Annuler / nouvelle demande ----------
+document.getElementById("cancelBtn").addEventListener("click", async () => {
+  const callId = localStorage.getItem(LS_CALL_ID);
+  if (!callId) return;
+  if (!confirm("Confirmer l'annulation de ta demande d'appel ?")) return;
+  await db.ref("calls/" + callId).update({ status: "cancelled" });
+  localStorage.removeItem(LS_CALL_ID);
+  localStorage.removeItem(LS_TOKEN);
+  showToast("Demande annulée.");
+  showForm();
+});
+
+document.getElementById("newRequestBtn").addEventListener("click", () => {
+  localStorage.removeItem(LS_CALL_ID);
+  localStorage.removeItem(LS_TOKEN);
+  showForm();
+});
+
+// ---------- Init : reprise d'une demande existante ----------
+(function init() {
+  const callId = localStorage.getItem(LS_CALL_ID);
+  if (callId) {
+    db.ref("calls/" + callId).once("value").then(snap => {
+      if (snap.exists()) {
+        watchCall(callId);
+      } else {
+        localStorage.removeItem(LS_CALL_ID);
+        localStorage.removeItem(LS_TOKEN);
+        showForm();
+      }
+    }).catch(() => showForm());
+  } else {
+    showForm();
+  }
+})();
+
+</script>
 </body>
 </html>
