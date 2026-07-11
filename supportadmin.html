@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Support KykyStudios</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <a href="index.html" class="brand">
+    <svg class="brand__mark" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      <rect width="16" height="16" fill="#2f7a49"/>
+      <rect x="2" y="2" width="4" height="4" fill="#4fbf74"/>
+      <rect x="10" y="2" width="4" height="4" fill="#e0b23c"/>
+      <rect x="6" y="6" width="4" height="4" fill="#e9edd9"/>
+      <rect x="2" y="10" width="4" height="4" fill="#e0b23c"/>
+      <rect x="10" y="10" width="4" height="4" fill="#4fbf74"/>
+    </svg>
+    <span class="brand__name">KykyStudios<small>Espace admin</small></span>
+  </a>
+  <nav class="site">
+    <a href="index.html">Demander un appel</a>
+    <a href="admin.html">Espace admin</a>
+    <a href="#" id="logoutLink" class="hidden">Se déconnecter</a>
+  </nav>
+</header>
+
+<!-- ======================= GATE MOT DE PASSE ======================= -->
+<div class="wrap" id="gateSection">
+  <h1 class="h1">Accès administrateur</h1>
+  <p class="lead">Entre le mot de passe pour accéder au tableau de bord des demandes d'appel.</p>
+  <div class="panel" style="max-width:380px">
+    <div class="field">
+      <label for="pwd">Mot de passe</label>
+      <input type="password" id="pwd" placeholder="••••••••">
+    </div>
+    <button class="btn btn--primary btn--block" id="pwdBtn">Entrer</button>
+    <p class="hint" id="pwdError"></p>
+  </div>
+</div>
+
+<!-- ======================= DASHBOARD ======================= -->
+<div class="wrap wrap--wide hidden" id="dashSection">
+  <h1 class="h1">Demandes d'appel</h1>
+  <p class="lead">Planifie les rendez-vous et rejoins les appels d'assistance.</p>
+
+  <div class="row">
+    <div class="panel center"><div class="panel__title" style="justify-content:center">En attente</div><div style="font-family:var(--font-display);font-size:26px;color:var(--gold)" id="statPending">0</div></div>
+    <div class="panel center"><div class="panel__title" style="justify-content:center">Planifiés</div><div style="font-family:var(--font-display);font-size:26px;color:var(--emerald)" id="statScheduled">0</div></div>
+    <div class="panel center"><div class="panel__title" style="justify-content:center">En cours</div><div style="font-family:var(--font-display);font-size:26px;color:#ff8b7a" id="statLive">0</div></div>
+  </div>
+
+  <div class="row mt-16" style="margin-bottom:16px">
+    <button class="btn btn--ghost btn--sm" data-filter="active">Actives</button>
+    <button class="btn btn--ghost btn--sm" data-filter="finished">Terminées / annulées</button>
+    <button class="btn btn--ghost btn--sm" data-filter="all">Toutes</button>
+  </div>
+
+  <div id="callsList" class="stack"></div>
+  <p class="faint center mt-16" id="emptyMsg">Aucune demande pour l'instant.</p>
+</div>
+
+<footer class="site">KykyStudios — Support serveur Minecraft survie</footer>
+
+<!-- ======================= TEMPLATE CARTE ======================= -->
+<template id="callCardTpl">
+  <div class="panel callCard">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div>
+        <div class="panel__title" style="margin-bottom:6px"><span class="ccPseudo"></span></div>
+        <div class="ccBadge"></div>
+      </div>
+      <div class="faint ccMeta"></div>
+    </div>
+
+    <table class="mt-16">
+      <tr><th>Motif</th><td class="ccMotif"></td></tr>
+      <tr><th>Détails</th><td class="ccDetails"></td></tr>
+      <tr><th>IP</th><td class="ccIp"></td></tr>
+      <tr><th>Rendez-vous</th><td class="ccScheduled"></td></tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <div class="row" style="align-items:end">
+      <div class="field" style="margin-bottom:0">
+        <label>Date et heure du rendez-vous</label>
+        <input type="datetime-local" class="ccDateInput">
+      </div>
+      <button class="btn btn--primary ccSaveBtn">Planifier</button>
+    </div>
+
+    <div class="row mt-16">
+      <button class="btn btn--gold ccJoinBtn">Rejoindre l'appel</button>
+      <button class="btn btn--ghost ccFinishBtn">Marquer terminé</button>
+      <button class="btn btn--danger ccDeleteBtn">Supprimer</button>
+    </div>
+  </div>
+</template>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
