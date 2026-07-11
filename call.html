@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appel en cours — Support KykyStudios</title>
+<link rel="icon" href="data:,">
+<style>
+/* =========================================================
+   KykyStudios Support — style.css
+   Palette : nuit de forêt / émeraude, accents or & redstone
+   Typo    : "Silkscreen" (pixel, display) + "Inter" (body)
+   Signature : boutons/panneaux "9-slice" façon interface Minecraft
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:            #12160e;
+  --bg-soft:       #171c11;
+  --panel:         #1d2417;
+  --panel-raised:  #232b1b;
+  --border-dark:   #070903;
+  --border-light:  #46592f;
+  --emerald:       #4fbf74;
+  --emerald-dim:   #2f7a49;
+  --gold:          #e0b23c;
+  --redstone:      #c1443a;
+  --redstone-dim:  #7c2b25;
+  --text:          #e9edd9;
+  --text-dim:      #a3ad8f;
+  --text-faint:    #6c7660;
+
+  --font-display: 'Silkscreen', monospace;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --radius: 2px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #1a2113 0%, var(--bg) 55%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 4px);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--emerald); }
+
+::selection { background: var(--emerald-dim); color: #fff; }
+
+/* ---------- Layout ---------- */
+
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+.wrap--wide { max-width: 1180px; }
+
+header.site {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 4px solid var(--border-dark);
+  background: linear-gradient(180deg, #1b2114 0%, #141810 100%);
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.brand__mark {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: var(--gold);
+  line-height: 1.3;
+}
+.brand__name small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-dim);
+  letter-spacing: 0.3px;
+}
+
+nav.site {
+  display: flex;
+  gap: 8px;
+}
+
+nav.site a {
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border: 1px solid transparent;
+}
+nav.site a:hover {
+  color: var(--text);
+  border-color: var(--border-light);
+  background: var(--panel);
+}
+
+/* ---------- Pixel panel (signature "9-slice" Minecraft GUI look) ---------- */
+
+.panel {
+  background: var(--panel);
+  border: 3px solid var(--border-dark);
+  box-shadow:
+    inset 2px 2px 0 var(--border-light),
+    inset -2px -2px 0 #0d1109,
+    0 6px 0 rgba(0,0,0,0.35);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.panel--raised { background: var(--panel-raised); }
+
+.panel__title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--gold);
+  margin: 0 0 16px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel__title::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--emerald);
+  box-shadow: 0 0 0 2px var(--border-dark);
+}
+
+/* ---------- Buttons (Minecraft-style bevel) ---------- */
+
+.btn {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  background: #4a5a3a;
+  border: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.18),
+    inset -2px -2px 0 rgba(0,0,0,0.45),
+    0 3px 0 var(--border-dark);
+  transition: transform 0.05s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 2px 2px 0 rgba(255,255,255,0.1),
+    inset -2px -2px 0 rgba(0,0,0,0.45);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.6) brightness(0.6);
+}
+
+.btn--primary { background: var(--emerald-dim); }
+.btn--gold    { background: #8a6a1f; }
+.btn--danger  { background: var(--redstone-dim); }
+.btn--ghost   {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--border-light);
+}
+.btn--sm { padding: 9px 14px; font-size: 10px; }
+.btn--block { width: 100%; }
+
+/* ---------- Forms ---------- */
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.field { margin-bottom: 18px; }
+
+input[type="text"],
+input[type="datetime-local"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  background: #0f130a;
+  border: 2px solid var(--border-dark);
+  box-shadow: inset 0 0 0 1px #303c22;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 11px 12px;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  box-shadow: inset 0 0 0 1px var(--emerald);
+}
+textarea { resize: vertical; min-height: 80px; }
+
+.hint { font-size: 12px; color: var(--text-faint); margin-top: 6px; }
+
+/* ---------- Badges / status ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border: 1px solid var(--border-dark);
+}
+.badge__dot { width: 7px; height: 7px; flex-shrink: 0; }
+
+.badge--pending  { background: #3a3320; color: var(--gold); }
+.badge--pending .badge__dot { background: var(--gold); }
+
+.badge--scheduled { background: #1c3a2e; color: var(--emerald); }
+.badge--scheduled .badge__dot { background: var(--emerald); }
+
+.badge--live { background: #3a1e1c; color: #ff8b7a; }
+.badge--live .badge__dot { background: var(--redstone); animation: pulse 1.2s infinite; }
+
+.badge--done { background: #22261c; color: var(--text-faint); }
+.badge--done .badge__dot { background: var(--text-faint); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.25; }
+}
+
+/* ---------- Utility ---------- */
+
+.muted { color: var(--text-dim); }
+.faint { color: var(--text-faint); font-size: 12px; }
+.center { text-align: center; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.row > * { flex: 1; }
+.stack { display: flex; flex-direction: column; gap: 10px; }
+.mt-8 { margin-top: 8px; } .mt-16 { margin-top: 16px; } .mt-24 { margin-top: 24px; }
+.hidden { display: none !important; }
+
+.divider {
+  border: none;
+  border-top: 2px dashed #2a331d;
+  margin: 20px 0;
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+.lead { color: var(--text-dim); margin: 0 0 24px; font-size: 14.5px; }
+
+.callout {
+  border-left: 4px solid var(--emerald);
+  background: rgba(79,191,116,0.08);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.callout--gold { border-color: var(--gold); background: rgba(224,178,60,0.08); }
+.callout--danger { border-color: var(--redstone); background: rgba(193,68,58,0.08); }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #263019; vertical-align: top; }
+th { color: var(--text-faint); text-transform: uppercase; font-size: 11px; letter-spacing: 0.4px; }
+
+/* ---------- Toast ---------- */
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--panel-raised);
+  border: 2px solid var(--border-dark);
+  box-shadow: inset 1px 1px 0 var(--border-light), 0 6px 0 rgba(0,0,0,0.35);
+  padding: 12px 16px;
+  font-size: 13px;
+  max-width: 320px;
+  z-index: 999;
+  animation: toast-in 0.2s ease;
+}
+@keyframes toast-in { from { opacity:0; transform: translateY(8px);} to {opacity:1; transform:none;} }
+
+/* ---------- Call room ---------- */
+
+.call-stage {
+  border: 3px solid var(--border-dark);
+  background: radial-gradient(ellipse at center, #182013 0%, #0b0e07 100%);
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.call-orb {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #6fdb92, var(--emerald-dim) 70%);
+  box-shadow: 0 0 0 6px rgba(79,191,116,0.12), 0 0 40px rgba(79,191,116,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 46px;
+}
+.call-orb.is-waiting {
+  background: radial-gradient(circle at 35% 30%, #e8c96a, var(--gold) 70%);
+  box-shadow: 0 0 0 6px rgba(224,178,60,0.12), 0 0 40px rgba(224,178,60,0.25);
+  animation: bob 2.4s ease-in-out infinite;
+}
+.call-orb.is-live {
+  animation: livepulse 1.6s ease-in-out infinite;
+}
+@keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-8px);} }
+@keyframes livepulse { 0%,100%{ box-shadow: 0 0 0 6px rgba(79,191,116,0.12), 0 0 40px rgba(79,191,116,0.25);} 50%{ box-shadow: 0 0 0 10px rgba(79,191,116,0.2), 0 0 60px rgba(79,191,116,0.4);} }
+
+.call-status-text {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.call-timer {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--gold);
+  margin: 10px 0 20px;
+  letter-spacing: 1px;
+}
+
+.call-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.iconbtn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #2a3520;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.12), inset -2px -2px 0 rgba(0,0,0,0.4);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconbtn:hover { filter: brightness(1.2); }
+.iconbtn.is-off { background: var(--redstone-dim); }
+.iconbtn--hangup { background: var(--redstone); }
+
+video {
+  width: 100%;
+  max-width: 220px;
+  background: #000;
+  border: 2px solid var(--border-dark);
+}
+.video-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.video-row .video-tile { text-align: center; }
+.video-row .video-tile span { display:block; font-size: 11px; color: var(--text-faint); margin-top: 4px; }
+
+.autoplay-gate {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,13,7,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 5;
+}
+
+footer.site {
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 12px;
+  padding: 30px 20px;
+}
+
+@media (max-width: 560px) {
+  header.site { flex-direction: column; align-items: flex-start; }
+  .h1 { font-size: 18px; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="site">
+  <a href="index.html" class="brand">
+    <svg class="brand__mark" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      <rect width="16" height="16" fill="#2f7a49"/>
+      <rect x="2" y="2" width="4" height="4" fill="#4fbf74"/>
+      <rect x="10" y="2" width="4" height="4" fill="#e0b23c"/>
+      <rect x="6" y="6" width="4" height="4" fill="#e9edd9"/>
+      <rect x="2" y="10" width="4" height="4" fill="#e0b23c"/>
+      <rect x="10" y="10" width="4" height="4" fill="#4fbf74"/>
+    </svg>
+    <span class="brand__name">KykyStudios<small>Salon d'appel</small></span>
+  </a>
+  <nav class="site">
+    <a href="index.html">Accueil</a>
+    <a href="admin.html">Espace admin</a>
+  </nav>
+</header>
+
+<div class="wrap" style="max-width:640px">
+
+  <div id="noIdError" class="panel hidden">
+    <div class="panel__title">Lien invalide</div>
+    <p class="muted">Aucun identifiant d'appel trouvé. Retourne à l'accueil pour faire une demande.</p>
+    <a href="index.html" class="btn btn--primary mt-16">Retour à l'accueil</a>
+  </div>
+
+  <div id="callUi" class="hidden">
+    <h1 class="h1" id="pageTitle">Salon d'appel</h1>
+    <p class="lead" id="pageSub">Motif : —</p>
+
+    <div class="call-stage">
+      <div id="autoplayGate" class="autoplay-gate hidden">
+        <p class="muted">Ton navigateur bloque la lecture automatique du son.</p>
+        <button class="btn btn--gold" id="enableSoundBtn">Activer le son</button>
+      </div>
+
+      <div class="call-orb" id="callOrb">🎧</div>
+      <div class="call-status-text" id="statusText">Connexion au salon...</div>
+      <div class="call-timer hidden" id="callTimer">00:00</div>
+
+      <div class="video-row" id="videoRow">
+        <div class="video-tile"><video id="localVideo" autoplay muted playsinline></video><span>Toi</span></div>
+        <div class="video-tile"><video id="remoteVideo" autoplay playsinline></video><span id="remoteLabel">Correspondant</span></div>
+      </div>
+
+      <div class="call-controls">
+        <button class="iconbtn" id="muteBtn" title="Couper le micro">🎤</button>
+        <button class="iconbtn" id="camBtn" title="Activer la caméra">📷</button>
+        <button class="iconbtn iconbtn--hangup" id="hangupBtn" title="Raccrocher">✕</button>
+      </div>
+    </div>
+
+    <div class="callout mt-24" id="waitingNotice">
+      <strong>En attente d'un administrateur.</strong> Une musique d'attente est jouée en boucle, avec un message vocal automatique toutes les 2 minutes.
+    </div>
+
+    <div class="panel mt-24">
+      <div class="panel__title">Détails de la demande</div>
+      <table>
+        <tr><th>Pseudo</th><td id="dPseudo">—</td></tr>
+        <tr><th>Motif</th><td id="dMotif">—</td></tr>
+        <tr><th>Détails</th><td id="dDetails">—</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site">KykyStudios — Support serveur Minecraft survie</footer>
+
+<!-- Musique d'attente : place ton fichier dans assets/waitingmusic.mp3 -->
+<audio id="waitingAudio" src="assets/waitingmusic.mp3" loop preload="auto"></audio>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+// =========================================================
+// Config Firebase — KykyStudios Support
+// =========================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyBPq6Wfxzq02MfK69BFxHm9_FUjDGTmAcw",
+  authDomain: "kykychat-24c7f.firebaseapp.com",
+  databaseURL: "https://kykychat-24c7f-default-rtdb.firebaseio.com",
+  projectId: "kykychat-24c7f",
+  storageBucket: "kykychat-24c7f.firebasestorage.app",
+  messagingSenderId: "342562811927",
+  appId: "1:342562811927:web:0fed1e1f511c4fddcfec52"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Connexion anonyme : pas de compte utilisateur, mais permet d'utiliser des
+// règles de sécurité Firebase du type ".read/.write": "auth != null"
+// plutôt que de laisser la base totalement ouverte. Voir README.md.
+if (firebase.auth) {
+  firebase.auth().signInAnonymously().catch((err) => {
+    console.warn("Auth anonyme indisponible :", err.message);
+  });
+}
+
+
+// =========================================================
+// Utilitaires partagés — KykyStudios Support
+// =========================================================
+
+const MOTIFS = {
+  bug:       "Bug en jeu",
+  report:    "Signaler un joueur",
+  sanction:  "Contester une sanction (ban / mute)",
+  boutique:  "Problème boutique / paiement",
+  technique: "Problème technique (connexion, lag, crash...)",
+  autre:     "Autre demande",
+};
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function genToken() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+// Formatte un timestamp (ms) en date lisible fr-FR
+function formatDateTime(ts) {
+  if (!ts) return "—";
+  const d = new Date(ts);
+  return d.toLocaleString("fr-FR", {
+    day: "2-digit", month: "2-digit", year: "numeric",
+    hour: "2-digit", minute: "2-digit",
+  });
+}
+
+function timeUntil(ts) {
+  const diff = ts - Date.now();
+  if (diff <= 0) return null;
+  const mins = Math.floor(diff / 60000);
+  const days = Math.floor(mins / 1440);
+  const hours = Math.floor((mins % 1440) / 60);
+  const remMins = mins % 60;
+  let out = [];
+  if (days) out.push(days + "j");
+  if (hours) out.push(hours + "h");
+  if (remMins || out.length === 0) out.push(remMins + "min");
+  return out.join(" ");
+}
+
+// Best-effort : récupère l'IP publique du visiteur (échoue silencieusement,
+// ex. si l'utilisateur bloque le tiers ipify — l'appel n'en dépend jamais).
+async function getClientIp() {
+  try {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 4000);
+    const res = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
+    clearTimeout(t);
+    const data = await res.json();
+    return data.ip || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Petit toast de notification en bas à droite
+function showToast(message, duration = 3200) {
+  let el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = message;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), duration);
+}
+
+function statusBadge(status) {
+  const map = {
+    pending:    ["badge--pending", "En attente de planification"],
+    scheduled:  ["badge--scheduled", "Appel planifié"],
+    in_call:    ["badge--live", "Appel en cours"],
+    finished:   ["badge--done", "Terminé"],
+    cancelled:  ["badge--done", "Annulé"],
+  };
+  const [cls, label] = map[status] || ["badge--pending", status];
+  return `<span class="badge ${cls}"><span class="badge__dot"></span>${label}</span>`;
+}
+
+
+// =========================================================
+// call.js — salon d'appel WebRTC (client <-> admin)
+//
+// Signalisation via Firebase Realtime Database :
+//   calls/{id}/rtc/offer            { sdp, type, round }
+//   calls/{id}/rtc/answer           { sdp, type, round }
+//   calls/{id}/rtc/candidates/caller  [ ...ICE candidates du client ]
+//   calls/{id}/rtc/candidates/callee  [ ...ICE candidates de l'admin ]
+//   calls/{id}/presence/client      bool
+//   calls/{id}/presence/admin       bool
+//
+// Le CLIENT est toujours "caller" (il initie l'offre),
+// l'ADMIN est toujours "callee" (il répond).
+//
+// ⚠️ Seuls des serveurs STUN publics sont configurés. Sur certains
+// réseaux (NAT symétrique, 4G stricte...) la connexion P2P peut échouer
+// sans serveur TURN. Pour fiabiliser, ajoute un TURN (ex: metered.ca,
+// Twilio, ou coturn auto-hébergé) dans ICE_SERVERS ci-dessous.
+// =========================================================
+
+const ICE_SERVERS = [
+  { urls: "stun:stun.l.google.com:19302" },
+  { urls: "stun:stun1.l.google.com:19302" },
+];
+
+const WAITING_MESSAGE = "Un administrateur va vous prendre en charge. Merci de patienter.";
+const WAITING_TTS_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+
+const params = new URLSearchParams(location.search);
+const callId = params.get("id");
+const role = params.get("role") === "admin" ? "admin" : "client";
+const isCaller = role === "client";
+const otherRole = role === "client" ? "admin" : "client";
+
+const els = {
+  noIdError: document.getElementById("noIdError"),
+  callUi: document.getElementById("callUi"),
+  pageTitle: document.getElementById("pageTitle"),
+  pageSub: document.getElementById("pageSub"),
+  statusText: document.getElementById("statusText"),
+  callOrb: document.getElementById("callOrb"),
+  callTimer: document.getElementById("callTimer"),
+  waitingNotice: document.getElementById("waitingNotice"),
+  videoRow: document.getElementById("videoRow"),
+  localVideo: document.getElementById("localVideo"),
+  remoteVideo: document.getElementById("remoteVideo"),
+  remoteLabel: document.getElementById("remoteLabel"),
+  muteBtn: document.getElementById("muteBtn"),
+  camBtn: document.getElementById("camBtn"),
+  hangupBtn: document.getElementById("hangupBtn"),
+  waitingAudio: document.getElementById("waitingAudio"),
+  autoplayGate: document.getElementById("autoplayGate"),
+  enableSoundBtn: document.getElementById("enableSoundBtn"),
+  dPseudo: document.getElementById("dPseudo"),
+  dMotif: document.getElementById("dMotif"),
+  dDetails: document.getElementById("dDetails"),
+};
+
+if (!callId) {
+  els.noIdError.classList.remove("hidden");
+} else {
+  els.callUi.classList.remove("hidden");
+  els.remoteLabel.textContent = role === "client" ? "Administrateur" : "Joueur";
+  initCall();
+}
+
+async function initCall() {
+  const callRef = db.ref("calls/" + callId);
+
+  // ---------- Charge les infos de la demande ----------
+  const snap = await callRef.once("value");
+  const data = snap.val();
+  if (!data) {
+    els.callUi.classList.add("hidden");
+    els.noIdError.classList.remove("hidden");
+    return;
+  }
+  els.pageTitle.textContent = "Appel avec " + (role === "client" ? "le support" : data.pseudo);
+  els.pageSub.textContent = "Motif : " + (data.motifLabel || data.motif || "—");
+  els.dPseudo.textContent = data.pseudo || "—";
+  els.dMotif.textContent = data.motifLabel || data.motif || "—";
+  els.dDetails.textContent = data.details || "—";
+
+  // ---------- Présence ----------
+  const myPresenceRef = callRef.child("presence/" + role);
+  const otherPresenceRef = callRef.child("presence/" + otherRole);
+  myPresenceRef.onDisconnect().set(false);
+  await myPresenceRef.set(true);
+
+  let otherOnline = false;
+  otherPresenceRef.on("value", (s) => {
+    otherOnline = !!s.val();
+    updateWaitingState();
+  });
+
+  // ---------- Média local ----------
+  let localStream;
+  try {
+    localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  } catch (e) {
+    setStatus("Impossible d'accéder au micro. Vérifie les autorisations du navigateur.");
+    console.error(e);
+    return;
+  }
+  els.localVideo.srcObject = localStream;
+
+  // ---------- Peer connection ----------
+  const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+  localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+
+  const remoteStream = new MediaStream();
+  els.remoteVideo.srcObject = remoteStream;
+
+  pc.ontrack = (event) => {
+    remoteStream.addTrack(event.track);
+    if (event.track.kind === "video") showVideoRow();
+  };
+
+  let connected = false;
+  pc.onconnectionstatechange = () => {
+    if (pc.connectionState === "connected" && !connected) {
+      connected = true;
+      onConnected();
+    } else if (["disconnected", "failed", "closed"].includes(pc.connectionState)) {
+      connected = false;
+      updateWaitingState();
+    }
+  };
+
+  const rtcRef = callRef.child("rtc");
+  const myCandRef = rtcRef.child("candidates/" + (isCaller ? "caller" : "callee"));
+  const otherCandRef = rtcRef.child("candidates/" + (isCaller ? "callee" : "caller"));
+  const offerRef = rtcRef.child("offer");
+  const answerRef = rtcRef.child("answer");
+
+  pc.onicecandidate = (event) => {
+    if (event.candidate) myCandRef.push(event.candidate.toJSON());
+  };
+
+  otherCandRef.on("child_added", (s) => {
+    const cand = s.val();
+    if (cand) pc.addIceCandidate(new RTCIceCandidate(cand)).catch(err => console.warn("ICE err", err));
+  });
+
+  let lastAppliedOfferRound = 0;
+  let lastSentOfferRound = 0;
+  let makingOffer = false;
+
+  if (isCaller) {
+    // Nettoie une éventuelle session précédente puis crée l'offre initiale
+    await rtcRef.remove();
+    // (onicecandidate/otherCandRef listeners restent valides, on les avait déjà attachés
+    // sur des refs enfants distinctes qui seront simplement re-remplies)
+
+    pc.onnegotiationneeded = async () => {
+      try {
+        makingOffer = true;
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        lastSentOfferRound += 1;
+        await offerRef.set({ sdp: offer.sdp, type: offer.type, round: lastSentOfferRound });
+      } catch (e) {
+        console.error("Erreur négociation (offer)", e);
+      } finally {
+        makingOffer = false;
+      }
+    };
+
+    answerRef.on("value", async (s) => {
+      const ans = s.val();
+      if (!ans || ans.round !== lastSentOfferRound) return;
+      if (pc.signalingState !== "have-local-offer") return;
+      try {
+        await pc.setRemoteDescription(new RTCSessionDescription(ans));
+      } catch (e) { console.error("Erreur applyAnswer", e); }
+    });
+  } else {
+    offerRef.on("value", async (s) => {
+      const off = s.val();
+      if (!off || off.round === lastAppliedOfferRound) return;
+      try {
+        await pc.setRemoteDescription(new RTCSessionDescription(off));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        lastAppliedOfferRound = off.round;
+        await answerRef.set({ sdp: answer.sdp, type: answer.type, round: off.round });
+      } catch (e) { console.error("Erreur applyOffer/answer", e); }
+    });
+  }
+
+  // ---------- Musique + voix d'attente (côté client uniquement) ----------
+  let ttsTimer = null;
+
+  function startWaiting() {
+    els.callOrb.classList.remove("is-live");
+    els.callOrb.classList.add("is-waiting");
+    els.callOrb.textContent = "⏳";
+    setStatus("En attente d'un administrateur...");
+    els.waitingNotice.classList.remove("hidden");
+    els.callTimer.classList.add("hidden");
+
+    if (role !== "client") return;
+
+    playWaitingAudio();
+    speakWaitingMessage();
+    if (ttsTimer) clearInterval(ttsTimer);
+    ttsTimer = setInterval(speakWaitingMessage, WAITING_TTS_INTERVAL_MS);
+  }
+
+  function stopWaiting() {
+    els.waitingNotice.classList.add("hidden");
+    if (ttsTimer) { clearInterval(ttsTimer); ttsTimer = null; }
+    els.waitingAudio.pause();
+    els.waitingAudio.currentTime = 0;
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+  }
+
+  function updateWaitingState() {
+    if (connected) return;
+    if (otherOnline) {
+      setStatus((role === "client" ? "L'administrateur" : "Le joueur") + " est en ligne, connexion en cours...");
+      stopWaiting();
+    } else {
+      startWaiting();
+    }
+  }
+
+  function onConnected() {
+    stopWaiting();
+    els.callOrb.classList.remove("is-waiting");
+    els.callOrb.classList.add("is-live");
+    els.callOrb.textContent = "🎧";
+    setStatus("Appel en cours");
+    els.callTimer.classList.remove("hidden");
+    startTimer();
+    callRef.update({ status: "in_call" });
+  }
+
+  updateWaitingState();
+
+  // ---------- Timer ----------
+  let timerInterval = null;
+  function startTimer() {
+    let seconds = 0;
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      seconds++;
+      const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      els.callTimer.textContent = `${m}:${s}`;
+    }, 1000);
+  }
+
+  // ---------- Contrôles ----------
+  let micOn = true;
+  els.muteBtn.addEventListener("click", () => {
+    micOn = !micOn;
+    localStream.getAudioTracks().forEach(t => t.enabled = micOn);
+    els.muteBtn.classList.toggle("is-off", !micOn);
+    els.muteBtn.textContent = micOn ? "🎤" : "🔇";
+  });
+
+  let camOn = false;
+  let videoTrack = null;
+  els.camBtn.addEventListener("click", async () => {
+    if (!videoTrack) {
+      try {
+        const camStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoTrack = camStream.getVideoTracks()[0];
+        localStream.addTrack(videoTrack);
+        els.localVideo.srcObject = localStream;
+        pc.addTrack(videoTrack, localStream);
+        camOn = true;
+        showVideoRow();
+      } catch (e) {
+        showToast("Impossible d'accéder à la caméra.");
+        return;
+      }
+    } else {
+      camOn = !camOn;
+      videoTrack.enabled = camOn;
+    }
+    els.camBtn.classList.toggle("is-off", !camOn);
+    els.camBtn.textContent = camOn ? "📷" : "🚫";
+  });
+
+  els.hangupBtn.addEventListener("click", async () => {
+    if (!confirm("Raccrocher et terminer l'appel ?")) return;
+    stopWaiting();
+    if (timerInterval) clearInterval(timerInterval);
+    localStream.getTracks().forEach(t => t.stop());
+    pc.close();
+    await myPresenceRef.set(false);
+    await callRef.update({ status: "finished" });
+    window.location.href = role === "admin" ? "admin.html" : "index.html";
+  });
+
+  window.addEventListener("beforeunload", () => {
+    myPresenceRef.set(false);
+  });
+}
+
+function setStatus(text) {
+  document.getElementById("statusText").textContent = text;
+}
+
+function showVideoRow() {
+  document.getElementById("videoRow").classList.remove("hidden");
+}
+
+// ---------- Musique d'attente : gestion de l'autoplay ----------
+function playWaitingAudio() {
+  const audio = document.getElementById("waitingAudio");
+  audio.volume = 0.55;
+  const p = audio.play();
+  if (p && p.catch) {
+    p.catch(() => {
+      document.getElementById("autoplayGate").classList.remove("hidden");
+    });
+  }
+}
+
+document.getElementById("enableSoundBtn").addEventListener("click", () => {
+  const audio = document.getElementById("waitingAudio");
+  audio.play().catch(() => {});
+  document.getElementById("autoplayGate").classList.add("hidden");
+});
+
+// ---------- Voix automatique (Web Speech API) ----------
+function speakWaitingMessage() {
+  if (!("speechSynthesis" in window)) return;
+  const audio = document.getElementById("waitingAudio");
+  try {
+    const utter = new SpeechSynthesisUtterance(WAITING_MESSAGE);
+    utter.lang = "fr-FR";
+    utter.rate = 1;
+    utter.onstart = () => { audio.volume = 0.18; };
+    utter.onend = () => { audio.volume = 0.55; };
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utter);
+  } catch (e) {
+    console.warn("Speech synthesis indisponible", e);
+  }
+}
+
+</script>
+</body>
+</html>
