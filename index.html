@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support KykyStudios — Demander un appel</title>
+<meta name="description" content="Contactez l'équipe KykyStudios pour un appel d'assistance sur le serveur Minecraft survie.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <a href="index.html" class="brand">
+    <svg class="brand__mark" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      <rect width="16" height="16" fill="#2f7a49"/>
+      <rect x="2" y="2" width="4" height="4" fill="#4fbf74"/>
+      <rect x="10" y="2" width="4" height="4" fill="#e0b23c"/>
+      <rect x="6" y="6" width="4" height="4" fill="#e9edd9"/>
+      <rect x="2" y="10" width="4" height="4" fill="#e0b23c"/>
+      <rect x="10" y="10" width="4" height="4" fill="#4fbf74"/>
+    </svg>
+    <span class="brand__name">KykyStudios<small>Support — Serveur Survie</small></span>
+  </a>
+  <nav class="site">
+    <a href="index.html">Demander un appel</a>
+    <a href="admin.html">Espace admin</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <!-- ======================= FORMULAIRE DE DEMANDE ======================= -->
+  <section id="formSection">
+    <h1 class="h1">Besoin d'aide sur le serveur ?</h1>
+    <p class="lead">Demande un appel vocal avec un membre de l'équipe. Choisis un motif, et un admin te donnera un rendez-vous dès que possible.</p>
+
+    <div class="panel">
+      <div class="panel__title">Nouvelle demande d'appel</div>
+
+      <div class="field">
+        <label for="pseudo">Ton pseudo Minecraft</label>
+        <input type="text" id="pseudo" maxlength="30" placeholder="Ex : Steve_74">
+      </div>
+
+      <div class="field">
+        <label for="motif">Motif de l'appel</label>
+        <select id="motif">
+          <option value="bug">Bug en jeu</option>
+          <option value="report">Signaler un joueur</option>
+          <option value="sanction">Contester une sanction (ban / mute)</option>
+          <option value="boutique">Problème boutique / paiement</option>
+          <option value="technique">Problème technique (connexion, lag, crash...)</option>
+          <option value="autre">Autre demande</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="details">Détails (optionnel mais recommandé)</label>
+        <textarea id="details" maxlength="600" placeholder="Explique ta situation en quelques phrases, ça aide l'admin à préparer l'appel."></textarea>
+      </div>
+
+      <button class="btn btn--primary btn--block" id="submitBtn">Envoyer ma demande d'appel</button>
+      <p class="hint">Aucun compte requis. Ta demande est mémorisée sur cet appareil (cache local) pour que tu puisses la retrouver.</p>
+    </div>
+  </section>
+
+  <!-- ======================= SUIVI DE LA DEMANDE ======================= -->
+  <section id="statusSection" class="hidden">
+    <h1 class="h1">Ta demande d'appel</h1>
+    <p class="lead">Voici le suivi en temps réel de ta demande.</p>
+
+    <div class="panel">
+      <div class="panel__title">Résumé</div>
+      <table>
+        <tr><th>Statut</th><td id="sumStatus">—</td></tr>
+        <tr><th>Pseudo</th><td id="sumPseudo">—</td></tr>
+        <tr><th>Motif</th><td id="sumMotif">—</td></tr>
+        <tr><th>Détails</th><td id="sumDetails">—</td></tr>
+        <tr><th>Demande envoyée le</th><td id="sumCreated">—</td></tr>
+        <tr><th>Rendez-vous</th><td id="sumScheduled">—</td></tr>
+      </table>
+    </div>
+
+    <div class="panel panel--raised" id="scheduledPanel">
+      <div class="panel__title">Rendez-vous</div>
+      <p id="scheduleText" class="muted">L'équipe n'a pas encore planifié ton appel. Reviens un peu plus tard, cette page se met à jour automatiquement.</p>
+      <div class="row mt-16">
+        <button class="btn btn--primary" id="joinBtn" disabled>Rejoindre l'appel</button>
+      </div>
+      <p class="faint mt-8" id="joinHint"></p>
+    </div>
+
+    <div class="row mt-16">
+      <button class="btn btn--ghost btn--sm" id="cancelBtn">Annuler ma demande</button>
+      <button class="btn btn--ghost btn--sm" id="newRequestBtn">Faire une nouvelle demande</button>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site">KykyStudios — Support serveur Minecraft survie</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
