@@ -521,7 +521,7 @@ footer.site {
 <footer class="site">KykyStudios — Support serveur Minecraft survie</footer>
 
 <!-- Musique d'attente : place ton fichier dans assets/waitingmusic.mp3 -->
-<audio id="waitingAudio" src="waitingmusic.mp3" loop preload="auto"></audio>
+<audio id="waitingAudio" src="assets/waitingmusic.mp3" loop preload="auto"></audio>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -749,7 +749,6 @@ async function initCall() {
 
   // ---------- Peer connection ----------
   const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
-  localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
   const remoteStream = new MediaStream();
   els.remoteVideo.srcObject = remoteStream;
@@ -761,6 +760,7 @@ async function initCall() {
 
   let connected = false;
   pc.onconnectionstatechange = () => {
+    console.log("[WebRTC] connectionState =", pc.connectionState);
     if (pc.connectionState === "connected" && !connected) {
       connected = true;
       onConnected();
@@ -768,6 +768,9 @@ async function initCall() {
       connected = false;
       updateWaitingState();
     }
+  };
+  pc.oniceconnectionstatechange = () => {
+    console.log("[WebRTC] iceConnectionState =", pc.iceConnectionState);
   };
 
   const rtcRef = callRef.child("rtc");
@@ -780,34 +783,51 @@ async function initCall() {
     if (event.candidate) myCandRef.push(event.candidate.toJSON());
   };
 
+  // Tampon : certains candidats ICE distants peuvent arriver avant que la
+  // description distante (offer/answer) ne soit posée. Il faut les mettre
+  // en attente plutôt que de les jeter, sinon la connexion peut échouer.
+  let remoteDescSet = false;
+  const pendingRemoteCandidates = [];
+  function flushPendingCandidates() {
+    while (pendingRemoteCandidates.length) {
+      const cand = pendingRemoteCandidates.shift();
+      pc.addIceCandidate(new RTCIceCandidate(cand)).catch(err => console.warn("ICE err", err));
+    }
+  }
   otherCandRef.on("child_added", (s) => {
     const cand = s.val();
-    if (cand) pc.addIceCandidate(new RTCIceCandidate(cand)).catch(err => console.warn("ICE err", err));
+    if (!cand) return;
+    if (remoteDescSet) {
+      pc.addIceCandidate(new RTCIceCandidate(cand)).catch(err => console.warn("ICE err", err));
+    } else {
+      pendingRemoteCandidates.push(cand);
+    }
   });
 
   let lastAppliedOfferRound = 0;
   let lastSentOfferRound = 0;
-  let makingOffer = false;
 
+  async function sendOffer() {
+    try {
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      lastSentOfferRound += 1;
+      await offerRef.set({ sdp: offer.sdp, type: offer.type, round: lastSentOfferRound });
+    } catch (e) {
+      console.error("Erreur négociation (offer)", e);
+    }
+  }
+
+  // IMPORTANT : ces handlers doivent être branchés AVANT d'ajouter les
+  // pistes locales (pc.addTrack plus bas), sinon l'événement
+  // 'negotiationneeded' peut se déclencher dans le vide et aucune offre
+  // n'est jamais envoyée (symptôme : connexion silencieuse, personne ne
+  // s'entend).
   if (isCaller) {
-    // Nettoie une éventuelle session précédente puis crée l'offre initiale
+    // Nettoie une éventuelle session précédente avant de démarrer
     await rtcRef.remove();
-    // (onicecandidate/otherCandRef listeners restent valides, on les avait déjà attachés
-    // sur des refs enfants distinctes qui seront simplement re-remplies)
 
-    pc.onnegotiationneeded = async () => {
-      try {
-        makingOffer = true;
-        const offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
-        lastSentOfferRound += 1;
-        await offerRef.set({ sdp: offer.sdp, type: offer.type, round: lastSentOfferRound });
-      } catch (e) {
-        console.error("Erreur négociation (offer)", e);
-      } finally {
-        makingOffer = false;
-      }
-    };
+    pc.onnegotiationneeded = sendOffer;
 
     answerRef.on("value", async (s) => {
       const ans = s.val();
@@ -815,6 +835,8 @@ async function initCall() {
       if (pc.signalingState !== "have-local-offer") return;
       try {
         await pc.setRemoteDescription(new RTCSessionDescription(ans));
+        remoteDescSet = true;
+        flushPendingCandidates();
       } catch (e) { console.error("Erreur applyAnswer", e); }
     });
   } else {
@@ -823,6 +845,8 @@ async function initCall() {
       if (!off || off.round === lastAppliedOfferRound) return;
       try {
         await pc.setRemoteDescription(new RTCSessionDescription(off));
+        remoteDescSet = true;
+        flushPendingCandidates();
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         lastAppliedOfferRound = off.round;
@@ -830,6 +854,10 @@ async function initCall() {
       } catch (e) { console.error("Erreur applyOffer/answer", e); }
     });
   }
+
+  // Ajout des pistes locales EN DERNIER : déclenche 'negotiationneeded'
+  // côté caller, une fois que tout est prêt à le recevoir.
+  localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
   // ---------- Musique + voix d'attente (côté client uniquement) ----------
   let ttsTimer = null;
